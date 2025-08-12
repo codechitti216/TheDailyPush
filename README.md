@@ -9,7 +9,7 @@
 
 **A sophisticated, academic-focused portfolio template designed specifically for researchers, PhD students, and academics.**
 
-[🚀 Live Demo](https://your-demo-site.github.io) • [📖 Documentation](https://github.com/codechitti216/TheDailyPush) • [🐛 Report Issues](https://github.com/codechitti216/TheDailyPush/issues)
+[📖 Documentation](https://github.com/codechitti216/TheDailyPush) • [🐛 Report Issues](https://github.com/codechitti216/TheDailyPush/issues) • [💬 Discussions](https://github.com/codechitti216/TheDailyPush/discussions)
 
 </div>
 
@@ -54,10 +54,10 @@
 
 ```bash
 # Clone the repository
-git clone https://github.com/your-username/research-portfolio-template.git
+git clone https://github.com/codechitti216/TheDailyPush.git
 
 # Navigate to the project directory
-cd research-portfolio-template
+cd TheDailyPush
 
 # Install dependencies
 npm install
@@ -75,6 +75,16 @@ pnpm dev
 ```
 
 Your portfolio will be available at `http://localhost:5173`
+
+### 🌐 Deploy Your Own Live Demo
+
+```bash
+# For GitHub Pages deployment
+npm run deploy
+
+# Your live demo will be at:
+# https://YOUR_USERNAME.github.io/YOUR_REPO_NAME
+```
 
 ---
 
@@ -169,6 +179,11 @@ published: true
 # Build and deploy to GitHub Pages
 npm run deploy
 ```
+
+After deployment, your live demo will be available at:
+`https://YOUR_USERNAME.github.io/YOUR_REPO_NAME`
+
+**Note:** Update the README badge and links once you deploy your live demo.
 
 ### Other Platforms
 - **Vercel**: Connect your GitHub repository

@@ -1,0 +1,5 @@
+[33m231f072[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;33mtag: [m[1;33mv1.0-release[m[33m)[m  FINAL SECURITY AUDIT: Pre-Push Sanitization Complete
+[33m64922af[m[33m ([m[1;33mtag: [m[1;33mv1.0-hardened[m[33m)[m  PHASE C: Advanced Monitoring & Enforcement System
+[33m965d7bb[m  SECURITY: Implement multi-layered attribution protection
+[33m82d0418[m[33m ([m[1;33mtag: [m[1;33mv1.0-template[m[33m)[m CRITICAL FIX: Replace personal CV with template placeholders
+[33m7d0b26a[m Initial template release: Research Portfolio Template v1.0
