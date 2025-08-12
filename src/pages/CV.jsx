@@ -1,3 +1,14 @@
+/*
+ * Research Portfolio Template - CV Page
+ * © 2025 Surya GS Chitti
+ * 
+ * This file is part of the Research Portfolio Template.
+ * Template design and original implementation by Surya GS Chitti.
+ * 
+ * Attribution required when using this template.
+ * GitHub: https://github.com/codechitti216/TheDailyPush
+ */
+
 import { Button } from '@/components/ui/button';
 import { Download, ExternalLink, Mail, Github, Linkedin } from 'lucide-react';
 
@@ -6,7 +17,7 @@ const CV = () => {
     // Create a link element and trigger download
     const link = document.createElement('a');
     link.href = '/cv.pdf';
-    link.download = 'Surya_GS_Chitti_CV.pdf';
+    link.download = 'Research_CV.pdf';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -17,7 +28,7 @@ const CV = () => {
       <div className="text-center space-y-4">
         <h1 className="font-serif text-4xl font-semibold text-gray-900">Curriculum Vitae</h1>
         <p className="text-lg text-gray-700 max-w-2xl mx-auto">
-          Machine Perception Engineer with a mathematics core—building robust autonomy stacks across sensor modalities.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Academic and research portfolio template.
         </p>
         <Button onClick={handleDownload} size="lg">
           <Download className="mr-2 h-4 w-4" />
@@ -32,27 +43,27 @@ const CV = () => {
           <div className="space-y-3">
             <div className="flex items-center space-x-3">
               <Mail className="h-5 w-5 text-gray-600" />
-              <a href="mailto:suryachitti216@gmail.com" className="academic-link">
-                suryachitti216@gmail.com
+              <a href="mailto:researcher@example.com" className="academic-link">
+                researcher@example.com
               </a>
             </div>
             <div className="flex items-center space-x-3">
               <Github className="h-5 w-5 text-gray-600" />
-              <a href="https://github.com/codechitti216" className="academic-link">
-                github.com/codechitti216
+              <a href="https://github.com/researcher" className="academic-link">
+                github.com/researcher
               </a>
             </div>
             <div className="flex items-center space-x-3">
               <Linkedin className="h-5 w-5 text-gray-600" />
-              <a href="https://linkedin.com/in/surya-g-s-chitti" className="academic-link">
-                linkedin.com/in/surya-g-s-chitti
+              <a href="https://linkedin.com/in/researcher" className="academic-link">
+                linkedin.com/in/researcher
               </a>
             </div>
           </div>
           <div>
             <p className="text-gray-700">
-              <strong>Phone:</strong> +91-7893339846<br />
-              <strong>Preferred Locations:</strong> Bangalore, Hyderabad
+              <strong>Phone:</strong> +1-555-123-4567<br />
+              <strong>Preferred Locations:</strong> University City, State
             </p>
           </div>
         </div>
@@ -62,10 +73,7 @@ const CV = () => {
       <div className="content-card">
         <h2 className="font-serif text-2xl font-semibold text-gray-900 mb-4">TL;DR</h2>
         <p className="text-gray-700 leading-relaxed">
-          Machine Perception Engineer with a mathematics core—building robust autonomy stacks across sensor 
-          modalities (vision, LiDAR, DVL), debugging perception-planning failures in ViNT/GNM agents, and 
-          deploying dual-stage estimation under DRDO constraints. Focused on bridging synthetic-to-real gaps 
-          and pushing beyond benchmarks toward real-world field robustness.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
         </p>
       </div>
 
@@ -75,32 +83,32 @@ const CV = () => {
         
         <div className="space-y-6">
           <div>
-            <h3 className="font-serif text-xl font-medium text-gray-900">Research Assistant Intern</h3>
-            <p className="text-gray-600 mb-2">AI & Robotics Lab, IISc Bangalore • Jan 2025 – Present</p>
+            <h3 className="font-serif text-xl font-medium text-gray-900">Senior Research Position</h3>
+            <p className="text-gray-600 mb-2">Research Institution • Dates</p>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li><strong>Precision Navigation:</strong> Built dual-stage ML pipelines using multiple neural network variants for DVL beam and velocity estimation. Achieved RMSE of 0.05 m/s on deployment sets; production-ready and field-tested.</li>
-              <li><strong>Deployment:</strong> Sole author of the full codebase delivered to DRDO; designed with modular instrumentation and internal log tracing for maintainability.</li>
-              <li><strong>Monocular Depth Estimation:</strong> Created turbidity-robust models using synthetic data from Unreal Engine 5.2 + USOD10K dataset.</li>
-              <li><strong>Visual Navigation Agent Debugging:</strong> Diagnosed transformer-based failures in ViNT/GNM navigation agents; traced planning errors to goal occlusion and unstable attention heads.</li>
+              <li><strong>Project 1:</strong> Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</li>
+              <li><strong>Project 2:</strong> Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</li>
+              <li><strong>Project 3:</strong> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</li>
+              <li><strong>Project 4:</strong> Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</li>
             </ul>
           </div>
 
           <div>
             <h3 className="font-serif text-xl font-medium text-gray-900">Research Intern</h3>
-            <p className="text-gray-600 mb-2">GVCL, IIIT Bangalore • Jul 2024 – Dec 2024</p>
+            <p className="text-gray-600 mb-2">Research Lab • Dates</p>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li><strong>UAV Localization and Mapping:</strong> Implemented KPConv and PointNet++ pipelines for 3D segmentation using LiDAR and RGB imagery. Benchmarked across KITTI, NuScenes, and SemanticKITTI datasets.</li>
-              <li><strong>RGB-LiDAR Fusion:</strong> Designed an RGB-LiDAR alignment module with SIFT + FLANN; optimized for matching accuracy and runtime using calibration matrices.</li>
+              <li><strong>Research Area 1:</strong> Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium.</li>
+              <li><strong>Research Area 2:</strong> Totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</li>
             </ul>
           </div>
 
           <div>
             <h3 className="font-serif text-xl font-medium text-gray-900">Student Intern</h3>
-            <p className="text-gray-600 mb-2">AI4Bharat, IIT Madras • Aug 2023 – Sept 2023</p>
+            <p className="text-gray-600 mb-2">Academic Institution • Dates</p>
             <ul className="list-disc list-inside space-y-2 text-gray-700">
-              <li><strong>Anuvaad:</strong> Contributed to the multilingual LLM initiative, aimed at enabling conversations across 13 Indian languages.</li>
-              <li><strong>Data Collection:</strong> Automated extraction of 2,000+ YouTube videos and 3,000+ websites using Google Developer API + Trafilatura; created multilingual corpora with no manual intervention.</li>
-              <li><strong>UI Development:</strong> Developed Streamlit UI for structured prompt collection; deployed and used by 40+ researchers in lab.</li>
+              <li><strong>Project A:</strong> Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit.</li>
+              <li><strong>Project B:</strong> Sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.</li>
+              <li><strong>Project C:</strong> Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet, consectetur, adipisci velit.</li>
             </ul>
           </div>
         </div>
@@ -112,20 +120,20 @@ const CV = () => {
         
         <div className="space-y-4">
           <div>
-            <h3 className="font-serif text-xl font-medium text-gray-900">BITS Pilani, Hyderabad Campus</h3>
-            <p className="text-gray-600">M.Sc. Mathematics + B.E. Civil Engineering • 2020 – 2025</p>
-            <p className="text-gray-700">Minor: Computing & Intelligence</p>
+            <h3 className="font-serif text-xl font-medium text-gray-900">University Name</h3>
+            <p className="text-gray-600">Ph.D. in Computer Science • Years</p>
+            <p className="text-gray-700">Specialization: Machine Learning</p>
             <p className="text-sm text-gray-600 mt-1">
-              Relevant Courses: Machine Learning, Artificial Intelligence, Numerical Methods, 
-              Probability and Statistics, Operating Systems, Graph Theory
+              Relevant Courses: Advanced Machine Learning, Research Methods, Data Structures, 
+              Statistical Analysis, Computer Vision, Natural Language Processing
             </p>
           </div>
 
           <div>
-            <h3 className="font-serif text-xl font-medium text-gray-900">IIT Madras (Online)</h3>
-            <p className="text-gray-600">Diploma in Data Science and Programming • 2020 – 2025</p>
+            <h3 className="font-serif text-xl font-medium text-gray-900">University Name</h3>
+            <p className="text-gray-600">M.S. in Computer Science • Years</p>
             <p className="text-sm text-gray-600 mt-1">
-              Relevant Courses: Deep Learning, DBMS, ML Foundations, Linux Systems, Statistics
+              Relevant Courses: Deep Learning, Database Systems, Algorithm Design, Systems Programming, Advanced Statistics
             </p>
           </div>
         </div>
@@ -180,28 +188,23 @@ const CV = () => {
         
         <div className="space-y-4">
           <div>
-            <h3 className="font-serif text-lg font-medium text-gray-900">Lex Fridman Podcast QA System with HyDE + RAG</h3>
+            <h3 className="font-serif text-lg font-medium text-gray-900">Sample Research Project 1</h3>
             <p className="text-gray-700">
-              Designed a QA system with BERT as the base embedding model using RAG, HyDE, Llama2-13B 
-              and OpenAI API. Built a fully deployable system with Streamlit UI enabling config controls, 
-              and around 3s response time on RTX 3070.
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.
             </p>
           </div>
 
           <div>
-            <h3 className="font-serif text-lg font-medium text-gray-900">Deformation Tracker – Civil Structures</h3>
+            <h3 className="font-serif text-lg font-medium text-gray-900">Sample Research Project 2</h3>
             <p className="text-gray-700">
-              Built a tool to extract displacement vectors from video footage of material compression 
-              in a Universal Testing Machine. UI supports multi-point selection and generation of 
-              displacement, velocity and acceleration graphs. Accuracy benchmarked at 0.2 mm across 7 video samples.
+              Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim.
             </p>
           </div>
 
           <div>
-            <h3 className="font-serif text-lg font-medium text-gray-900">Overspeed Vehicle Detection – YOLOv8</h3>
+            <h3 className="font-serif text-lg font-medium text-gray-900">Sample Research Project 3</h3>
             <p className="text-gray-700">
-              Trained YOLOv8 on custom-labeled traffic video; achieved 70%+ license plate recall at 30 FPS. 
-              Designed custom augmentation pipeline (skew, flip, light degradation).
+              Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis.
             </p>
           </div>
         </div>
@@ -214,7 +217,7 @@ const CV = () => {
           Download Full CV (PDF)
         </Button>
         <p className="text-sm text-gray-600 mt-2">
-          Last updated: January 2025
+          Last updated: Template Version
         </p>
       </div>
     </div>
