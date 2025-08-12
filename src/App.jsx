@@ -11,6 +11,7 @@
 
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Layout from './components/Layout';
+import TemplateIntegrity from './components/TemplateIntegrity';
 import Home from './pages/Home';
 import Projects from './pages/Projects';
 import ProjectDetail from './pages/ProjectDetail';
@@ -24,6 +25,7 @@ import './App.css';
 function App() {
   return (
     <Router>
+      <TemplateIntegrity />
       <Layout>
         <Routes>
           <Route path="/" element={<Home />} />

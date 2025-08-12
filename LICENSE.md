@@ -3,6 +3,8 @@
 ## Research Portfolio Template
 **© 2025 Surya GS Chitti**
 
+**⚠️ DMCA Notice: This work is protected by copyright. Unauthorized removal of attribution or violation of license terms will result in DMCA takedown requests and potential legal action.**
+
 ---
 
 ### Terms of Use

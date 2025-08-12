@@ -30,9 +30,81 @@
         }
       }(window.location))
     </script>
+    <style>
+      /* Template Credit - Required Attribution */
+      .template-credit-guard {
+        position: fixed;
+        bottom: 0;
+        right: 0;
+        background: rgba(255, 255, 255, 0.95);
+        padding: 4px 8px;
+        font-size: 11px;
+        border-top-left-radius: 4px;
+        z-index: 9999;
+        backdrop-filter: blur(4px);
+      }
+      .template-credit-guard a {
+        color: #2563eb;
+        text-decoration: none;
+      }
+      .template-credit-guard a:hover {
+        text-decoration: underline;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
+    
+    <!-- Template Attribution Guard -->
+    <script>
+    (function creditGuard(){
+      let attempts = 0;
+      const maxAttempts = 50;
+      
+      const ensure = () => {
+        if (attempts++ > maxAttempts) return;
+        
+        if (!document.querySelector('.template-credit-guard')) {
+          const el = document.createElement('div');
+          el.className = 'template-credit-guard';
+          el.innerHTML = 'Template by <a href="https://github.com/codechitti216/TheDailyPush" target="_blank" rel="noopener">Surya GS Chitti</a>';
+          document.body.appendChild(el);
+          
+          // Log usage for monitoring
+          if (typeof gtag !== 'undefined') {
+            gtag('event', 'template_usage', {
+              'event_category': 'attribution',
+              'event_label': window.location.hostname
+            });
+          }
+        }
+      };
+      
+      // Multiple injection points
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', ensure);
+      } else {
+        ensure();
+      }
+      
+      // Periodic check (harder to remove)
+      const interval = setInterval(() => {
+        ensure();
+        if (attempts > maxAttempts) clearInterval(interval);
+      }, 5000);
+      
+      // Re-inject on navigation changes (SPA)
+      let lastUrl = location.href;
+      new MutationObserver(() => {
+        const url = location.href;
+        if (url !== lastUrl) {
+          lastUrl = url;
+          setTimeout(ensure, 100);
+        }
+      }).observe(document, {subtree: true, childList: true});
+    })();
+    </script>
+    
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
