@@ -175,10 +175,19 @@ published: true
 ## 🌐 Deployment
 
 ### GitHub Pages (Recommended)
+
+The template includes automated GitHub Pages deployment with **one-time setup required**:
+
+1. **📚 Follow Setup Guide**: See [GITHUB_PAGES_SETUP.md](./GITHUB_PAGES_SETUP.md) for detailed instructions
+2. **⚙️ Enable Pages**: Manually enable GitHub Pages in repository settings (one-time)
+3. **🚀 Auto Deploy**: Push to main branch triggers automatic deployment
+
 ```bash
-# Build and deploy to GitHub Pages
-npm run deploy
+# After setup, deployment is automatic
+git push origin main
 ```
+
+> **⚠️ Important**: GitHub Actions cannot auto-enable Pages due to security restrictions. Manual setup required once per repository.
 
 After deployment, your live demo will be available at:
 `https://YOUR_USERNAME.github.io/YOUR_REPO_NAME`
