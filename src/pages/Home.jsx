@@ -64,9 +64,9 @@ export default function Home() {
         <div className="content-card">
           <h3 className="font-serif text-xl font-semibold mb-3">Connect</h3>
           <div className="space-y-3">
-            <a href="mailto:researcher@example.com" className="flex items-center text-gray-700 hover:text-gray-900 text-sm">
+            <a href="mailto:your.email@university.edu" className="flex items-center text-gray-700 hover:text-gray-900 text-sm">
               <Mail className="h-4 w-4 mr-2 flex-shrink-0" />
-              <span className="truncate">researcher@example.com</span>
+              <span className="truncate">your.email@university.edu</span>
             </a>
             <a href="https://github.com/researcher" className="flex items-center text-gray-700 hover:text-gray-900 text-sm">
               <Github className="h-4 w-4 mr-2 flex-shrink-0" />

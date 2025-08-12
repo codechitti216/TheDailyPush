@@ -1,11 +1,19 @@
 # 🎓 Research Portfolio Template
 
-> **A sophisticated, academic-focused portfolio template designed specifically for researchers, PhD students, and academics.**
+<div align="center">
 
-[![License](https://img.shields.io/badge/License-Custom%20Attribution-blue.svg)](LICENSE.md)
-[![React](https://img.shields.io/badge/React-18.3.1-blue.svg)](https://reactjs.org/)
-[![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.x-06B6D4.svg)](https://tailwindcss.com/)
-[![Vite](https://img.shields.io/badge/Vite-6.x-646CFF.svg)](https://vitejs.dev/)
+![Research Portfolio Template](https://img.shields.io/badge/Template-Research%20Portfolio-blue?style=for-the-badge)
+![React](https://img.shields.io/badge/React-18.3.1-61DAFB?style=for-the-badge&logo=react)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-4.x-06B6D4?style=for-the-badge&logo=tailwindcss)
+![License](https://img.shields.io/badge/License-Custom%20Attribution-orange?style=for-the-badge)
+
+**A sophisticated, academic-focused portfolio template designed specifically for researchers, PhD students, and academics.**
+
+[🚀 Live Demo](https://your-demo-site.github.io) • [📖 Documentation](https://github.com/codechitti216/TheDailyPush) • [🐛 Report Issues](https://github.com/codechitti216/TheDailyPush/issues)
+
+</div>
+
+
 
 **Template Design by [Surya GS Chitti](https://github.com/codechitti216)**
 
