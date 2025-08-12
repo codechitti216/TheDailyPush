@@ -1,7 +1,7 @@
 # Custom Attribution License (CAL)
 
 ## Research Portfolio Template
-**© 2025 Surya GS Chitti**
+**© 2025 Anonymous Author**
 
 **⚠️ DMCA Notice: This work is protected by copyright. Unauthorized removal of attribution or violation of license terms will result in DMCA takedown requests and potential legal action.**
 

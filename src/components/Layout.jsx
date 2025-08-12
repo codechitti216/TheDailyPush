@@ -90,7 +90,7 @@ const Layout = ({ children }) => {
             </p>
             <div className="mt-4 pt-4 border-t border-gray-100">
               <p className="text-xs text-gray-500">
-                © Template design by <a href="https://github.com/codechitti216" className="text-blue-600 hover:text-blue-800 font-medium">Surya GS Chitti</a> | 
+                © Template design by Anonymous | 
                 <span className="mx-1">•</span>
                 <span className="font-medium">Must retain attribution</span>
               </p>

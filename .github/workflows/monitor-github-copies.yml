@@ -1,0 +1,188 @@
+name: 🕵️ Monitor GitHub Copies
+
+on:
+  schedule:
+    # Run weekly on Sundays at 3 AM UTC
+    - cron: '0 3 * * 0'
+  workflow_dispatch:
+    inputs:
+      search_terms:
+        description: 'Additional search terms (comma-separated)'
+        required: false
+        default: ''
+
+jobs:
+  scan-github-copies:
+    runs-on: ubuntu-latest
+    name: Scan for Unauthorized Template Copies
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 🔍 Search GitHub for template copies
+      id: github_search
+      run: |
+        echo "🔍 Searching GitHub for potential template copies..."
+        
+        # Default search terms
+        SEARCH_TERMS=(
+          "Research Portfolio Template"
+          "Template design by Surya GS Chitti"
+          "research-portfolio-template"
+          "TheDailyPush template"
+          # Unique code patterns
+          "template-credit-guard"
+          "SuryaGSChitti-ResearchPortfolioTemplate-2025"
+        )
+        
+        # Add custom search terms if provided
+        if [[ -n "${{ github.event.inputs.search_terms }}" ]]; then
+          IFS=',' read -ra CUSTOM_TERMS <<< "${{ github.event.inputs.search_terms }}"
+          SEARCH_TERMS+=("${CUSTOM_TERMS[@]}")
+        fi
+        
+        FOUND_REPOS=()
+        
+        for term in "${SEARCH_TERMS[@]}"; do
+          echo "🔎 Searching for: $term"
+          
+          # GitHub API search (requires token for higher rate limits)
+          SEARCH_RESULTS=$(curl -s \
+            -H "Accept: application/vnd.github.v3+json" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+            "https://api.github.com/search/repositories?q=${term// /%20}&sort=updated&order=desc&per_page=10")
+            
+          # Parse results and check for potential copies
+          echo "$SEARCH_RESULTS" | jq -r '.items[]? | select(.full_name != "${{ github.repository }}") | .full_name + " | " + .html_url + " | " + .updated_at' >> potential_copies.txt
+        done
+        
+        # Remove duplicates and sort
+        if [[ -f potential_copies.txt ]]; then
+          sort potential_copies.txt | uniq > unique_copies.txt
+          COPY_COUNT=$(wc -l < unique_copies.txt)
+          echo "found_copies=$COPY_COUNT" >> $GITHUB_OUTPUT
+          
+          if [[ $COPY_COUNT -gt 0 ]]; then
+            echo "⚠️ Found $COPY_COUNT potential template copies"
+            cat unique_copies.txt
+          else
+            echo "✅ No suspicious copies found"
+          fi
+        else
+          echo "found_copies=0" >> $GITHUB_OUTPUT
+          echo "✅ No potential copies detected"
+        fi
+        
+    - name: 🔍 Check found repositories for attribution
+      if: steps.github_search.outputs.found_copies != '0'
+      id: attribution_scan
+      run: |
+        echo "🔍 Checking found repositories for proper attribution..."
+        
+        VIOLATIONS=()
+        
+        while IFS=' | ' read -r repo_name repo_url updated_at; do
+          echo "Checking: $repo_name"
+          
+          # Check if README or main files contain attribution
+          README_CHECK=$(curl -s "https://api.github.com/repos/$repo_name/contents/README.md" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" | \
+            jq -r '.content?' | base64 -d 2>/dev/null | \
+            grep -i "surya.*chitti\|template.*design" || echo "")
+            
+          LICENSE_CHECK=$(curl -s "https://api.github.com/repos/$repo_name/contents/LICENSE.md" \
+            -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" | \
+            jq -r '.content?' | base64 -d 2>/dev/null | \
+            grep -i "surya.*chitti" || echo "")
+            
+          if [[ -z "$README_CHECK" && -z "$LICENSE_CHECK" ]]; then
+            VIOLATIONS+=("$repo_name | $repo_url | Missing Attribution")
+            echo "❌ VIOLATION: $repo_name - No attribution found"
+          else
+            echo "✅ OK: $repo_name - Attribution found"
+          fi
+          
+        done < unique_copies.txt
+        
+        # Output violations
+        if [[ ${#VIOLATIONS[@]} -gt 0 ]]; then
+          echo "violation_count=${#VIOLATIONS[@]}" >> $GITHUB_OUTPUT
+          printf '%s\n' "${VIOLATIONS[@]}" > violations.txt
+          echo "🚨 Found ${#VIOLATIONS[@]} potential license violations"
+        else
+          echo "violation_count=0" >> $GITHUB_OUTPUT
+          echo "✅ All found copies appear to have proper attribution"
+        fi
+        
+    - name: 📝 Create violation report issue
+      if: steps.attribution_scan.outputs.violation_count != '0'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const fs = require('fs');
+          const violations = fs.readFileSync('violations.txt', 'utf8').trim().split('\n');
+          
+          const title = `🚨 Template License Violations Detected - ${violations.length} Repository(ies)`;
+          const body = `## Automated License Violation Detection Report
+          
+          The weekly GitHub scan has detected **${violations.length}** repository(ies) that appear to be using this template without proper attribution.
+          
+          ### Detected Violations:
+          ${violations.map(v => {
+            const [repo, url, reason] = v.split(' | ');
+            return `- **${repo}** - [View Repository](${url})\n  - Issue: ${reason}`;
+          }).join('\n')}
+          
+          ### Recommended Actions:
+          
+          1. **Contact Repository Owners:**
+             - Send friendly email requesting attribution compliance
+             - Reference the Custom Attribution License terms
+          
+          2. **DMCA Takedown (if needed):**
+             - Use the template in DMCA_PROTECTION.md
+             - File with GitHub if contact fails
+          
+          3. **Evidence Collection:**
+             - Screenshot the violations
+             - Document missing attribution
+             - Archive git history if needed
+          
+          ### Template License Requirements:
+          - Footer credit: "Template design by Surya GS Chitti"
+          - LICENSE.md file with attribution terms
+          - Meta tag: \`<meta name="template-author" content="Surya GS Chitti" />\`
+          - Copyright headers in source files
+          
+          ### Contact Information:
+          - **Email:** suryachitti216@gmail.com
+          - **GitHub:** @codechitti216
+          - **Original Template:** https://github.com/codechitti216/TheDailyPush
+          
+          ---
+          *Auto-generated by GitHub Copy Monitor*
+          *Scan Date: ${new Date().toISOString()}*
+          *Scan ID: ${{ github.run_id }}*`;
+          
+          await github.rest.issues.create({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            title: title,
+            body: body,
+            labels: ['license-violation', 'dmca-candidate', 'monitoring']
+          });
+          
+    - name: 📊 Summary Report
+      run: |
+        echo "## 🕵️ GitHub Copy Monitoring Summary"
+        echo "- **Repositories Scanned:** $(cat unique_copies.txt 2>/dev/null | wc -l || echo 0)"
+        echo "- **Potential Violations:** ${{ steps.attribution_scan.outputs.violation_count || 0 }}"
+        echo "- **Scan Completed:** $(date)"
+        echo ""
+        if [[ -f violations.txt ]]; then
+          echo "### Violations Found:"
+          cat violations.txt
+        else
+          echo "✅ No violations detected"
+        fi

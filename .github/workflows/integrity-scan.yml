@@ -1,0 +1,158 @@
+name: 🔒 Template Integrity Scan
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  schedule:
+    # Run daily at 2 AM UTC to catch any attribution removals
+    - cron: '0 2 * * *'
+  workflow_dispatch:
+
+jobs:
+  integrity-check:
+    runs-on: ubuntu-latest
+    name: Verify Template Attribution
+    
+    steps:
+    - name: 📥 Checkout code
+      uses: actions/checkout@v4
+      
+    - name: 🔍 Check for required attribution
+      id: attribution_check
+      run: |
+        echo "🔍 Scanning for required attribution strings..."
+        
+        # Define required strings that MUST exist
+        REQUIRED_STRINGS=(
+          "Surya GS Chitti"
+          "Template design by"
+          "codechitti216"
+          "Attribution required"
+        )
+        
+        FAILED_CHECKS=()
+        
+        for string in "${REQUIRED_STRINGS[@]}"; do
+          echo "Checking for: $string"
+          if ! grep -r "$string" . --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=dist; then
+            FAILED_CHECKS+=("$string")
+            echo "❌ MISSING: $string"
+          else
+            echo "✅ FOUND: $string"
+          fi
+        done
+        
+        # Check specific critical files
+        CRITICAL_FILES=(
+          "LICENSE.md"
+          "package.json"
+          "src/components/Layout.jsx"
+          "index.html"
+        )
+        
+        for file in "${CRITICAL_FILES[@]}"; do
+          if [[ ! -f "$file" ]]; then
+            FAILED_CHECKS+=("Missing file: $file")
+            echo "❌ MISSING FILE: $file"
+          else
+            echo "✅ FILE EXISTS: $file"
+          fi
+        done
+        
+        # Check meta tags in index.html
+        if [[ -f "index.html" ]]; then
+          if ! grep -q 'meta name="template-author"' index.html; then
+            FAILED_CHECKS+=("Missing template-author meta tag")
+            echo "❌ MISSING: template-author meta tag"
+          fi
+        fi
+        
+        # Set outputs
+        if [[ ${#FAILED_CHECKS[@]} -eq 0 ]]; then
+          echo "integrity_status=PASS" >> $GITHUB_OUTPUT
+          echo "✅ All integrity checks passed!"
+        else
+          echo "integrity_status=FAIL" >> $GITHUB_OUTPUT
+          echo "failed_checks=${FAILED_CHECKS[*]}" >> $GITHUB_OUTPUT
+          echo "❌ Integrity check failed!"
+          echo "Failed checks: ${FAILED_CHECKS[*]}"
+        fi
+        
+    - name: 📊 Build check (verify no build errors after attribution)
+      if: steps.attribution_check.outputs.integrity_status == 'PASS'
+      run: |
+        if [[ -f "package.json" ]]; then
+          npm ci
+          npm run build
+          echo "✅ Build successful with attribution intact"
+        fi
+        
+    - name: 🚨 Fail job if attribution missing
+      if: steps.attribution_check.outputs.integrity_status == 'FAIL'
+      run: |
+        echo "::error::Template attribution requirements not met!"
+        echo "::error::Failed checks: ${{ steps.attribution_check.outputs.failed_checks }}"
+        echo ""
+        echo "🔒 TEMPLATE INTEGRITY VIOLATION DETECTED"
+        echo ""
+        echo "Required attribution has been removed or modified."
+        echo "This violates the template license terms."
+        echo ""
+        echo "To fix this:"
+        echo "1. Restore the original LICENSE.md file"
+        echo "2. Ensure 'Template design by Surya GS Chitti' appears in footer"
+        echo "3. Keep meta tag: <meta name=\"template-author\" content=\"Surya GS Chitti\" />"
+        echo "4. Preserve copyright headers in source files"
+        echo ""
+        echo "For licensing questions: suryachitti216@gmail.com"
+        exit 1
+        
+    - name: 📝 Create issue on integrity failure
+      if: failure() && github.event_name == 'schedule'
+      uses: actions/github-script@v7
+      with:
+        script: |
+          const title = '🚨 Template Integrity Violation Detected';
+          const body = `## Attribution Integrity Check Failed
+          
+          The automated integrity scan detected that required template attribution has been removed or modified.
+          
+          **Failed Checks:**
+          \`\`\`
+          ${{ steps.attribution_check.outputs.failed_checks }}
+          \`\`\`
+          
+          **Required Actions:**
+          - [ ] Restore LICENSE.md with original attribution
+          - [ ] Ensure footer contains "Template design by Surya GS Chitti"
+          - [ ] Verify meta tag: \`<meta name="template-author" content="Surya GS Chitti" />\`
+          - [ ] Preserve copyright headers in source files
+          
+          **License Violation Notice:**
+          This template is provided under a Custom Attribution License. Removal of attribution violates the license terms and may result in DMCA takedown requests.
+          
+          For licensing questions, contact: suryachitti216@gmail.com
+          
+          ---
+          *Auto-generated by Template Integrity Scanner*
+          *Scan Time: ${{ github.run_id }} | ${{ github.sha }}*`;
+          
+          // Check if issue already exists
+          const existingIssues = await github.rest.issues.listForRepo({
+            owner: context.repo.owner,
+            repo: context.repo.repo,
+            state: 'open',
+            labels: 'template-integrity'
+          });
+          
+          if (existingIssues.data.length === 0) {
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: title,
+              body: body,
+              labels: ['template-integrity', 'license-violation', 'urgent']
+            });
+          }
