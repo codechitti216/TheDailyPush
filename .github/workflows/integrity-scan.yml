@@ -103,13 +103,23 @@ jobs:
           fi
         done
         
-        # Check meta tags in index.html
-        if [[ -f "index.html" ]]; then
-          if ! grep -q 'meta name="template-author"' index.html; then
-            FAILED_CHECKS+=("Missing template-author meta tag")
-            echo "❌ MISSING: template-author meta tag"
-          fi
-        fi
+        # Check meta tags in index.html using Node.js
+        echo "🔍 Checking meta tags in index.html..."
+        node -e "
+        const fs = require('fs');
+        if (fs.existsSync('index.html')) {
+          const content = fs.readFileSync('index.html', 'utf8');
+          if (content.includes('template-author') && content.includes('Surya GS Chitti')) {
+            console.log('✅ FOUND: template-author meta tag with correct attribution');
+          } else {
+            console.log('❌ MISSING: template-author meta tag');
+            process.exit(1);
+          }
+        } else {
+          console.log('❌ MISSING: index.html file');
+          process.exit(1);
+        }
+        "
         
         # Set outputs
         if [[ ${#FAILED_CHECKS[@]} -eq 0 ]]; then
