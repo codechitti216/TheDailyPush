@@ -18,7 +18,7 @@
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist",
     "validate": "node scripts/validateGarden.js",
-    "check:attribution": "grep -r \"Surya GS Chitti\" --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=dist . || (echo 'ATTRIBUTION CHECK FAILED' && exit 1)",
+    "check:attribution": "node -e \"const fs=require('fs');const path=require('path');function searchInDir(dir){const files=fs.readdirSync(dir);for(const file of files){const fullPath=path.join(dir,file);if(['node_modules','.git','dist'].includes(file))continue;const stat=fs.statSync(fullPath);if(stat.isDirectory()){searchInDir(fullPath);}else if(/\\.(js|jsx|ts|tsx|md|html|json)$/.test(file)){const content=fs.readFileSync(fullPath,'utf8');if(content.includes('Surya GS Chitti')){console.log('✅ Found attribution in:',fullPath);process.exit(0);}}}}searchInDir('.');console.error('❌ Attribution not found');process.exit(1);\"",
     "precommit": "npm run check:attribution && npm run lint",
     "security-audit": "npm audit && npm run check:attribution"
   },

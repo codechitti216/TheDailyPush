@@ -24,25 +24,67 @@ jobs:
       run: |
         echo "🔍 Scanning for required attribution strings..."
         
-        # Define required strings that MUST exist
-        REQUIRED_STRINGS=(
-          "Surya GS Chitti"
-          "Template design by"
-          "codechitti216"
-          "Attribution required"
-        )
+        # Use Node.js for cross-platform compatibility
+        node -e "
+        const fs = require('fs');
+        const path = require('path');
         
-        FAILED_CHECKS=()
+        const requiredStrings = [
+          'Surya GS Chitti',
+          'Template design by',
+          'codechitti216',
+          'Attribution required'
+        ];
         
-        for string in "${REQUIRED_STRINGS[@]}"; do
-          echo "Checking for: $string"
-          if ! grep -r "$string" . --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=dist; then
-            FAILED_CHECKS+=("$string")
-            echo "❌ MISSING: $string"
-          else
-            echo "✅ FOUND: $string"
-          fi
-        done
+        let failedChecks = [];
+        let foundFiles = {};
+        
+        function searchInDir(dir) {
+          try {
+            const files = fs.readdirSync(dir);
+            for (const file of files) {
+              if (['node_modules', '.git', 'dist'].includes(file)) continue;
+              
+              const fullPath = path.join(dir, file);
+              const stat = fs.statSync(fullPath);
+              
+              if (stat.isDirectory()) {
+                searchInDir(fullPath);
+              } else if (/\.(js|jsx|ts|tsx|md|html|json)$/.test(file)) {
+                const content = fs.readFileSync(fullPath, 'utf8');
+                
+                for (const str of requiredStrings) {
+                  if (content.includes(str)) {
+                    if (!foundFiles[str]) foundFiles[str] = [];
+                    foundFiles[str].push(fullPath);
+                  }
+                }
+              }
+            }
+          } catch (err) {
+            // Ignore permission errors
+          }
+        }
+        
+        searchInDir('.');
+        
+        for (const str of requiredStrings) {
+          if (foundFiles[str] && foundFiles[str].length > 0) {
+            console.log('✅ FOUND:', str, 'in', foundFiles[str].length, 'files');
+          } else {
+            console.log('❌ MISSING:', str);
+            failedChecks.push(str);
+          }
+        }
+        
+        if (failedChecks.length === 0) {
+          console.log('integrity_status=PASS');
+        } else {
+          console.log('integrity_status=FAIL');
+          console.log('failed_checks=' + failedChecks.join(','));
+          process.exit(1);
+        }
+        "
         
         # Check specific critical files
         CRITICAL_FILES=(
