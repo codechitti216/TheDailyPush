@@ -1,0 +1,102 @@
+import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
+import { ArrowRight, Github, Linkedin, Mail } from 'lucide-react';
+
+export default function Home() {
+  return (
+    <div className="space-y-12">
+      {/* Profile Photo */}
+      <div className="flex justify-center pt-8">
+        <img
+          src="https://placehold.co/128x128/e5e7eb/6b7280?text=Profile"
+          alt="Research Profile Photo"
+          className="rounded-full w-32 h-32 object-cover shadow-lg border-4 border-white"
+        />
+      </div>
+      
+      {/* Hero Section */}
+      <section className="text-center space-y-6">
+        <h1 className="font-serif text-4xl md:text-5xl font-semibold text-gray-900">
+          Dr. Research Name
+        </h1>
+        <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+        </p>
+        <p className="text-lg text-gray-700 max-w-2xl mx-auto leading-relaxed">
+          Researcher | Engineer 
+        </p>
+        <div className="flex justify-center space-x-4 pt-4">
+          <Button asChild>
+            <Link to="/projects">
+              View Projects <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
+          <Button variant="outline" asChild>
+            <Link to="/cv">Download CV</Link>
+          </Button>
+        </div>
+      </section>
+
+      {/* Quick Links */}
+      <section className="grid md:grid-cols-3 gap-6">
+        <div className="content-card">
+          <h3 className="font-serif text-xl font-semibold mb-3">Current Focus</h3>
+          <p className="text-gray-700 mb-4">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore.
+          </p>
+          <Link to="/projects" className="academic-link">
+            Explore current work →
+          </Link>
+        </div>
+        <div className="content-card">
+          <h3 className="font-serif text-xl font-semibold mb-3">Research Areas</h3>
+          <div className="space-y-2 mb-4">
+            <span className="tag">Computer Vision</span>
+            <span className="tag">3D Perception</span>
+            <span className="tag">Visual Navigation</span>
+            <span className="tag">Multi-Modal Fusion</span>
+            <span className="tag">Deep Learning</span>
+          </div>
+          <Link to="/garden" className="academic-link">
+            Browse knowledge garden →
+          </Link>
+        </div>
+        <div className="content-card">
+          <h3 className="font-serif text-xl font-semibold mb-3">Connect</h3>
+          <div className="space-y-3">
+            <a href="mailto:researcher@example.com" className="flex items-center text-gray-700 hover:text-gray-900 text-sm">
+              <Mail className="h-4 w-4 mr-2 flex-shrink-0" />
+              <span className="truncate">researcher@example.com</span>
+            </a>
+            <a href="https://github.com/researcher" className="flex items-center text-gray-700 hover:text-gray-900 text-sm">
+              <Github className="h-4 w-4 mr-2 flex-shrink-0" />
+              <span>GitHub</span>
+            </a>
+            <a href="https://linkedin.com/in/researcher" className="flex items-center text-gray-700 hover:text-gray-900 text-sm">
+              <Linkedin className="h-4 w-4 mr-2 flex-shrink-0" />
+              <span>LinkedIn</span>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section className="prose max-w-none">
+        <h2>About Me</h2>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.
+        </p>
+        <p>
+          Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt.
+        </p>
+        <p>
+          Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt. Neque porro quisquam est, qui dolorem ipsum quia dolor sit amet.
+        </p>
+        <p>
+          This website serves as a template for academic portfolios. A place to document research journeys, share insights, and maintain knowledge systems. It's designed to be both a professional portfolio and a personal knowledge garden.
+        </p>
+      </section>
+    </div>
+  );
+}
+
